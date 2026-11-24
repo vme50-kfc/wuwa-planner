@@ -1,5 +1,6 @@
 """Build the GitHub Pages index from the planner's Markdown."""
 from html import escape
+from hashlib import sha256
 from pathlib import Path
 import re
 
@@ -7,6 +8,12 @@ ROOT = Path(__file__).resolve().parent.parent
 REPO = 'https://github.com/vme50-kfc/wuwa-planner'
 LINK = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
 BOLD = re.compile(r'\*\*(.+?)\*\*')
+
+
+def asset(name):
+    path = f'assets/{name}'
+    digest = sha256((ROOT / 'docs' / path).read_bytes()).hexdigest()[:12]
+    return f'{path}?v={digest}'
 
 
 def inline(text):
@@ -44,20 +51,32 @@ def render_table(rows):
 
 
 def body(lines):
-    result = []
     steps = []
+    notes = []
+    references = []
     for raw in lines:
+        if not raw.strip():
+            continue
         step = re.match(r'^\d\. (.+)$', raw)
         if step:
             steps.append(f'<li>{inline(step[1])}</li>')
             continue
-        if steps:
-            result.append(f'<ol class="steps">{"".join(steps)}</ol>')
-            steps = []
-        if raw.strip():
-            result.append(f'<p>{inline(raw)}</p>')
-    if steps:
-        result.append(f'<ol class="steps">{"".join(steps)}</ol>')
+        links = list(LINK.finditer(raw))
+        if links and all(link[2].startswith('https://') for link in links):
+            plain = LINK.sub('', raw).strip(' ·')
+            if plain:
+                notes.append(f'<p>{inline(plain)}</p>')
+            references.extend(f'<li>{inline(link[0])}</li>' for link in links)
+        else:
+            notes.append(f'<p>{inline(raw)}</p>')
+    result = [f'<ol class="steps">{"".join(steps)}</ol>']
+    if notes:
+        result.append(f'<div class="team-notes">{"".join(notes)}</div>')
+    if references:
+        result.append(
+            '<footer class="team-references"><h4>视频与资料</h4>'
+            f'<ul role="list">{"".join(references)}</ul></footer>'
+        )
     return ''.join(result)
 
 
@@ -101,9 +120,9 @@ index = f"""<!doctype html>
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="鸣潮账号养成、锁暝抽卡预算和20队操作手法。">
   <title>鸣潮 · 账号规划</title>
-  <script src="assets/theme.js"></script>
-  <link rel="stylesheet" href="assets/styles.css">
-  <script defer src="assets/planner.js"></script>
+  <script src="{asset('theme.js')}"></script>
+  <link rel="stylesheet" href="{asset('styles.css')}">
+  <script defer src="{asset('planner.js')}"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到正文</a>
@@ -117,7 +136,6 @@ index = f"""<!doctype html>
       </nav>
       <div class="header-actions">
         <label class="theme-control" hidden>
-          <span>外观</span>
           <select id="theme" aria-label="网站外观">
             <option value="system">跟随系统</option>
             <option value="light">浅色</option>
@@ -136,7 +154,7 @@ index = f"""<!doctype html>
           <p class="game-title" lang="en">Wuthering Waves</p>
           <h1 id="hero-title">鸣潮账号规划</h1>
           <p class="version">3.8 版本 · 2026.11.24 账号快照</p>
-          <p class="hero-text">先补好现有主队，再为锁暝练心。按队号查操作和视频，也可以下载含跳转目录的完整 PDF。</p>
+          <p class="hero-text">角色养成、锁暝抽卡预算与 20 队实战手法。</p>
           <div class="hero-links">
             <a class="button primary" href="#teams">查看 20 队手法 <span aria-hidden="true">↓</span></a>
             <a class="button secondary" href="guide.pdf">打开完整版 PDF <span aria-hidden="true">↗</span></a>

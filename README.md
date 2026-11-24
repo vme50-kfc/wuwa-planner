@@ -1,6 +1,6 @@
 # 鸣潮 · 账号规划
 
-[![海雾中的海岸遗迹与金色共鸣环](docs/assets/resonance-coast.webp)](https://vme50-kfc.github.io/wuwa-planner/)
+记录角色养成、20 队实战手法和锁暝抽卡预算。网页支持按队号和角色名查找，PDF 内含可跳转的队号目录。
 
 [打开规划网站](https://vme50-kfc.github.io/wuwa-planner/) · [按队号查手法](https://vme50-kfc.github.io/wuwa-planner/#teams) · [打开可跳转的 PDF](docs/guide.pdf)
 
@@ -20,6 +20,12 @@
 | 队伍与手法 | [20 队预设速查](plans/teams.md) · [操作与推荐视频](plans/rotations.md) |
 | 锁暝抽卡 | [保底预算与抽取顺序](plans/pulls.md) |
 | 账号实测 | [历史快照](snapshots/README.md) |
+
+<details>
+<summary>查看网页版封面</summary>
+<br>
+<a href="https://vme50-kfc.github.io/wuwa-planner/"><img src="docs/assets/resonance-coast.webp" alt="规划网页使用的海岸遗迹与共鸣环插画" width="640"></a>
+</details>
 
 ## 更新网页
 
