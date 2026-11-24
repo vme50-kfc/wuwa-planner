@@ -21,12 +21,6 @@
 | 锁暝抽卡 | [保底预算与抽取顺序](plans/pulls.md) |
 | 账号实测 | [历史快照](snapshots/README.md) |
 
-<details>
-<summary>查看网页版封面</summary>
-<br>
-<a href="https://vme50-kfc.github.io/wuwa-planner/"><img src="docs/assets/resonance-coast.webp" alt="规划网页使用的海岸遗迹与共鸣环插画" width="640"></a>
-</details>
-
 ## 更新网页
 
 网站发布目录为 `docs/`。修改配队或计划 Markdown 后，运行 `python3 scripts/build-site.py` 更新网页。
