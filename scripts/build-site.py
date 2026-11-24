@@ -98,8 +98,10 @@ index = f"""<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <meta name="description" content="鸣潮账号养成、锁暝抽卡预算和20队操作手法。">
   <title>鸣潮 · 账号规划</title>
+  <script src="assets/theme.js"></script>
   <link rel="stylesheet" href="assets/styles.css">
   <script defer src="assets/planner.js"></script>
 </head>
@@ -107,34 +109,48 @@ index = f"""<!doctype html>
   <a class="skip" href="#main">跳到正文</a>
   <header class="site-header">
     <div class="wrap masthead">
-      <a class="brand" href="#top">鸣潮 <span>／ 账号规划</span></a>
+      <a class="brand" href="#top">鸣潮 <span>账号规划</span></a>
       <nav aria-label="站点导航">
         <a href="#teams">20 队手法</a>
         <a href="#builds">角色养成</a>
         <a href="#pulls">抽卡预算</a>
       </nav>
-      <a class="header-download" href="guide.pdf">PDF <span aria-hidden="true">↗</span></a>
+      <div class="header-actions">
+        <label class="theme-control" hidden>
+          <span>外观</span>
+          <select id="theme" aria-label="网站外观">
+            <option value="system">跟随系统</option>
+            <option value="light">浅色</option>
+            <option value="dark">深色</option>
+          </select>
+        </label>
+        <a class="header-download" href="guide.pdf">PDF <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </header>
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
+      <img class="hero-art" src="assets/resonance-coast.webp" width="1942" height="809" fetchpriority="high" alt="">
       <div class="wrap hero-inner">
-        <div>
-          <p class="version">3.8 版本 · 2026.11.24 账号快照</p>
+        <div class="hero-copy">
+          <p class="game-title" lang="en">Wuthering Waves</p>
           <h1 id="hero-title">鸣潮账号规划</h1>
+          <p class="version">3.8 版本 · 2026.11.24 账号快照</p>
           <p class="hero-text">先补好现有主队，再为锁暝练心。按队号查操作和视频，也可以下载含跳转目录的完整 PDF。</p>
           <div class="hero-links">
             <a class="button primary" href="#teams">查看 20 队手法 <span aria-hidden="true">↓</span></a>
             <a class="button secondary" href="guide.pdf">打开完整版 PDF <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <aside class="hero-summary" aria-label="当前规划重点">
-          <div><span>养成优先</span><strong>仇远 → 弗洛洛 → 琳奈</strong></div>
-          <div><span>抽卡目标</span><strong>锁暝 0 链</strong></div>
-          <div><span>最坏情况剩余缺口 · 计入现有月相</span><strong class="amount">18,912 <small>星声</small></strong></div>
-        </aside>
       </div>
     </section>
+    <aside class="overview" aria-label="当前规划重点">
+      <div class="wrap overview-inner">
+        <div><span>养成优先</span><strong>仇远 → 弗洛洛 → 琳奈</strong></div>
+        <div><span>抽卡目标</span><strong>锁暝 0 链</strong></div>
+        <div><span>最坏情况剩余缺口 · 计入现有月相</span><strong class="amount">18,912 <small>星声</small></strong></div>
+      </div>
+    </aside>
     <section class="wrap section" id="teams" aria-labelledby="teams-title">
       <div class="section-heading">
         <div><h2 id="teams-title">20 队操作与视频</h2><p>选一队，查看进场顺序、输出步骤和对应视频。</p></div>

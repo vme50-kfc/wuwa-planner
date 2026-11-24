@@ -1,14 +1,26 @@
 # 鸣潮 · 账号规划
 
-[浏览 GitHub Pages](https://vme50-kfc.github.io/wuwa-planner/) · [打开可跳转的 PDF](docs/guide.pdf) · [20 队操作与视频](plans/rotations.md)
+[![海雾中的海岸遗迹与金色共鸣环](docs/assets/resonance-coast.webp)](https://vme50-kfc.github.io/wuwa-planner/)
 
-基于 2026-11-24 的 3.8 版本账号快照。现阶段先补仇远、弗洛洛和琳奈，再练心和玉阙玄华。抽卡优先留给锁暝 0 链。
+[打开规划网站](https://vme50-kfc.github.io/wuwa-planner/) · [按队号查手法](https://vme50-kfc.github.io/wuwa-planner/#teams) · [打开可跳转的 PDF](docs/guide.pdf)
+
+## 当前规划
+
+基于 2026-11-24 的 3.8 版本账号快照。
+
+| 养成优先 | 抽卡目标 | 锁暝本体缺口 |
+| --- | --- | --- |
+| 仇远 → 弗洛洛 → 琳奈，之后练心和玉阙玄华 | 锁暝 0 链 | **18,912 星声**，按最坏情况并计入现有月相 |
+
+## 攻略索引
 
 | 内容 | 入口 |
 | --- | --- |
 | 角色养成 | [优先级与分周计划](plans/builds.md) |
-| 20 队预设 | [队号速查](plans/teams.md) |
+| 队伍与手法 | [20 队预设速查](plans/teams.md) · [操作与推荐视频](plans/rotations.md) |
 | 锁暝抽卡 | [保底预算与抽取顺序](plans/pulls.md) |
 | 账号实测 | [历史快照](snapshots/README.md) |
+
+## 更新网页
 
 网站发布目录为 `docs/`。修改配队或计划 Markdown 后，运行 `python3 scripts/build-site.py` 更新网页。
