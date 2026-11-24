@@ -1768,6 +1768,55 @@ kbd {
 /* ==========================================================================
    Suoming Convene Calculator & Budget Forecast
    ========================================================================== */
+.pulls-links { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.pull-forecast { margin-top: clamp(2rem, 4vw, 3rem); }
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.forecast-card { padding: clamp(0.85rem, 2.4vw, 1.35rem); }
+.forecast-card h3 { font-family: var(--font-serif); font-size: 1.2rem; }
+.forecast-list { margin: 0.7rem 0 0; padding: 0; list-style: none; }
+.forecast-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-block: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+.forecast-list li:last-child { padding-bottom: 0; }
+.forecast-entry { min-width: 0; }
+.forecast-entry-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.22rem 0.55rem; }
+.forecast-rank {
+  flex: none;
+  min-width: 1.8rem;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+.forecast-status {
+  padding: 0.05rem 0.38rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 99px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+.forecast-status[data-status="官宣"] { color: var(--el-aero); }
+.forecast-status[data-status="传闻"] { color: var(--gold); }
+.forecast-status[data-status="推测"] { color: var(--cyan); }
+.forecast-entry p { margin-top: 0.23rem; color: var(--ink-soft); font-size: 0.88rem; }
+.forecast-entry a { white-space: nowrap; }
+.forecast-note {
+  margin-top: 0.8rem;
+  padding: 0.65rem 0.9rem;
+  border-inline-start: 2px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: var(--gold-soft);
+  color: var(--ink-soft);
+}
+
 .pulls-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.9fr);
@@ -2147,6 +2196,7 @@ td:nth-child(3) { font-variant-numeric: tabular-nums; white-space: nowrap; }
 }
 
 @media (max-width: 860px) {
+  .forecast-grid { grid-template-columns: minmax(0, 1fr); }
   .team-layout { grid-template-columns: minmax(0, 1fr); }
   .picker { position: static; }
   .team-list {

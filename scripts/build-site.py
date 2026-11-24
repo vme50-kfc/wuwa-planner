@@ -480,6 +480,19 @@ def render_budget_table(rows, max_need=33760):
     )
 
 
+def render_forecast_list(rows, ranked=False):
+    entries = []
+    for row in rows[2:]:
+        label, status, description = row[-3:]
+        rank = f'<span class="forecast-rank">{inline(row[0])}</span>' if ranked else ''
+        entries.append(
+            f'<li>{rank}<div class="forecast-entry"><div class="forecast-entry-head">'
+            f'<strong>{inline(label)}</strong><span class="forecast-status" data-status="{escape(status)}">'
+            f'{escape(status)}</span></div><p>{inline(description)}</p></div></li>'
+        )
+    return f'<ul class="forecast-list">{"".join(entries)}</ul>'
+
+
 # --- Load & parse all Markdown sources ---
 snapshot = parse_snapshot()
 rotation_md = (ROOT / 'plans/rotations.md').read_text()
@@ -666,6 +679,10 @@ budget_html = render_budget_table(budget_tables[1], max_need=33760)
 base_deficit = parse_int(budget_tables[1][3][2])  # 18,912
 base_target_total = 24800
 base_ready_pct = max(0, min(100, round((base_target_total - base_deficit) / base_target_total * 100)))
+
+forecast_md = pulls_md.split('\n## 4.0 到 4.3 抽卡优先级\n', 1)[1].split('\n## ', 1)[0]
+forecast_timeline, forecast_ranking = tables(forecast_md)
+forecast_blocks = forecast_md.strip().split('\n\n')
 
 element_filter_buttons = ''.join(
     f'<button type="button" class="el-filter" data-el-filter="{code}" data-el="{code}" aria-pressed="false">'
@@ -877,7 +894,10 @@ index = f"""<!doctype html>
           <h2 id="pulls-title">锁暝唤取预算与实时试算</h2>
           <p>默认载入 {escape(snapshot['date'])} 实测库存（角色池垫 {snapshot['charPity']} 抽小保底 · 武器池垫 {snapshot['weapPity']} 抽），可实时输入最新星声与波纹试算缺口。</p>
         </div>
-        <a class="text-link" href="{REPO}/blob/main/plans/pulls.md" target="_blank" rel="noopener noreferrer">完整预算与抽卡顺序 <span aria-hidden="true">↗</span></a>
+        <div class="pulls-links">
+          <a class="text-link" href="#pull-priority">4.0 到 4.3 抽卡优先级 <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="{REPO}/blob/main/plans/pulls.md" target="_blank" rel="noopener noreferrer">完整预算与抽卡顺序 <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
 
       <div class="pulls-layout">
@@ -997,6 +1017,27 @@ index = f"""<!doctype html>
           </div>
         </div>
       </div>
+
+      <section class="pull-forecast" id="pull-priority" aria-labelledby="pull-priority-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="pull-priority-title">4.0 到 4.3 抽卡优先级</h2>
+            <p>{inline(forecast_blocks[0])}</p>
+          </div>
+          <a class="text-link" href="guide.pdf#page=18">PDF 抽卡计划 <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="forecast-grid">
+          <div class="forecast-card spotlight-card">
+            <h3>版本动向</h3>
+            {render_forecast_list(forecast_timeline)}
+          </div>
+          <div class="forecast-card spotlight-card">
+            <h3>复刻抽取顺序</h3>
+            {render_forecast_list(forecast_ranking, ranked=True)}
+          </div>
+        </div>
+        <p class="forecast-note">{inline(forecast_blocks[-1])}</p>
+      </section>
     </section>
   </main>
 

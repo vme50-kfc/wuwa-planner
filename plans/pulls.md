@@ -34,6 +34,32 @@
 
 [限时唤取公告](https://wutheringwaves.kurogames.com/zh-tw/main/news/detail/5753) · [唤取机制](https://www.prydwen.gg/wuthering-waves/guides/gacha)
 
+## 4.0 到 4.3 抽卡优先级
+
+信息核对于 2026-11-25。按 11 月 24 日账号快照，先保锁暝 0 链，计入现有星声和月相后还差 18,912 星声（约 119 抽）。
+
+### 版本动向
+
+| 版本 | 状态 | 已知信息与判断 |
+| --- | --- | --- |
+| 4.0 | 官宣 | 2026 年 12 月 22 日开启。安娜、露希尔为已公开的新角色，复刻名单未公布。 [官方专题](https://newfederation.kurogames-global.com/) · [4.0 实机](https://www.bilibili.com/video/BV1jKsq6cEEP/) |
+| 4.0 | 传闻 | 有消息称清宵可能在 4.0 首复刻。你已有卡提希娅和忌炎，清宵优先级低。 [传闻来源](https://wuwa-today.vercel.app/leaks) |
+| 4.0 | 推测 | 心、爱弥斯被玩家列为复刻候选。你已有两人，即使返场也先跳过补链。 [玩家推测](https://www.wuwabuild.com/news/wuthering-waves-4-0-banners-anna-lucielle-reruns) |
+| 4.1 | 推测 | 洛瑟菈、达妮娅有首发后隔三个版本首次返场的先例。按此类推可从 4.1 重点关注锁暝，具体版本和日期待官宣。 [历史卡池](https://wutheringwaves.gamearchive.fyi/zh-hans/reruns) |
+| 4.2–4.3 | 未官宣 | 截至核对日还没有可靠的复刻名单。锁暝未到手就继续保留本体预算。 |
+
+### 复刻抽取顺序
+
+| 顺位 | 目标 | 4.x 复刻状态 | 对你阵容的收益 |
+| --- | --- | --- | --- |
+| 1 | 锁暝 0 链 | 未官宣 | 补齐心＋锁暝＋守岸人同奏队，先拿本体，实战后再决定是否抽沉冥。 [心锁守实战](https://www.bilibili.com/video/BV12mnC6QEEa/) |
+| 2 | 洛瑟菈 0 链 | 未官宣 | 和绯雪、千咲组霜渐队，腾出琳奈给爱弥斯。琳奈的占位冲突最明显时，优先选她。 [洛瑟菈配队](https://wuwaguide.kurogames.com/zh-Hans/?role_id=1109&strategy_id=10196) |
+| 3 | 穗穗 0 链 | 未官宣 | 3.8 下半已公布。她能进绯雪队，把千咲留给卡提希娅。两队经常抢千咲时，将她提到第 2。 [穗穗配队](https://www.youtube.com/watch?v=tvMTKR9uGEM) |
+| 4 | 莉莉 0 链 | 未官宣 | 心锁成为常用主队后再补，提高同奏队上限，并把守岸人腾给另一队。 [莉莉档案](https://wutheringwaves.kurogames.com/en/main/news/detail/5725) |
+| 5–6 | 莫宁／达妮娅 0 链 | 未官宣 | 爱弥斯练起来后按打法二选一。震谐用莫宁＋琳奈，聚爆对群用达妮娅＋千咲。 [爱弥斯双模态配队](https://wuwaguide.kurogames.com/zh-Hans/?role_id=1210&strategy_id=10204) |
+
+卡池撞期先保锁暝。拿到以后只够再抽一位，琳奈分不开选洛瑟菈，千咲分不开选穗穗。
+
 ## 从现在到出货
 
 - [ ] 每周更新星声和浮金波纹。余波珊瑚的备用 3 抽留到有需要时再兑换。残振珊瑚只按商城实际可兑数量计入。
