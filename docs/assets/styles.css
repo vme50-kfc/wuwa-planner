@@ -397,10 +397,6 @@ kbd {
   color: #f6e1b4;
   background: rgba(34, 49, 68, 0.9);
 }
-.header-download {
-  color: #f3d79e;
-  border-color: rgba(230, 200, 138, 0.38);
-}
 
 /* ==========================================================================
    Hero Cinema Stage
@@ -1122,10 +1118,9 @@ kbd {
 .team-link-names {
   font-size: 0.84rem;
   font-weight: 650;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
+.team-link-purpose { color: var(--muted); font-size: 0.74rem; line-height: 1.42; }
+.team-directory-link { color: var(--link); font-size: 0.82rem; }
 .team-link-meta {
   display: flex;
   align-items: center;
@@ -1816,6 +1811,20 @@ kbd {
   background: var(--gold-soft);
   color: var(--ink-soft);
 }
+.build-summary { margin: 0 0 1rem; }
+.planning-notes {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+  color: var(--ink-soft);
+  font-size: 0.87rem;
+}
+.planning-notes ol, .pull-step-list {
+  margin: 0;
+  padding-inline-start: 1.2rem;
+}
+.planning-notes li + li, .pull-step-list li + li { margin-top: 0.35rem; }
+.pull-step-list { margin-top: 0.65rem; color: var(--ink-soft); font-size: 0.88rem; }
 
 .pulls-layout {
   display: grid;
@@ -2030,7 +2039,7 @@ kbd {
   color: var(--el-aero);
 }
 
-/* Right Side: Baseline Table + Prep Card */
+/* Right Side: Baseline and Snapshot */
 .pulls-side {
   display: grid;
   gap: 1rem;
@@ -2092,39 +2101,27 @@ td:nth-child(3) { font-variant-numeric: tabular-nums; white-space: nowrap; }
   color: var(--muted);
 }
 
-.prep-card {
-  padding: 1.15rem;
-  border-top: 2px solid var(--el-color);
+.budget-details { margin-bottom: 0; }
+.budget-details-body {
+  margin-top: 0;
+  padding: 0.9rem 1rem 1rem;
+  border-top: 1px solid var(--line);
+}
+.budget-details td, .budget-details th { white-space: normal; }
+.snapshot-balances {
   display: grid;
-  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin: 0;
 }
-.prep-head {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
-.prep-head h3 { font-family: var(--font-serif); font-size: 1.12rem; }
-.prep-card p { font-size: 0.87rem; color: var(--ink-soft); }
-.prep-mats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.55rem;
-}
-.mat-pill {
-  padding: 0.58rem 0.65rem;
-  border: 1px solid var(--el-edge);
+.snapshot-balances div {
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  background: var(--el-tint);
-  display: grid;
-  gap: 0.12rem;
+  background: var(--surface-soft);
 }
-.mat-pill strong {
-  color: var(--el-color);
-  font-family: var(--font-mono);
-  font-size: 0.96rem;
-}
-.mat-pill span { font-size: 0.74rem; color: var(--ink-soft); }
+.snapshot-balances dt { color: var(--muted); font-size: 0.76rem; }
+.snapshot-balances dd { margin: 0; color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 
 /* ==========================================================================
    Footer
@@ -2255,7 +2252,6 @@ td:nth-child(3) { font-variant-numeric: tabular-nums; white-space: nowrap; }
   .calc-targets { grid-template-columns: 1fr; }
   .calc-inputs { grid-template-columns: 1fr; }
   .search-field input, .field-box input, .field-box select { font-size: 1rem; }
-  .prep-mats { grid-template-columns: 1fr; }
   .team-notes { grid-template-columns: 1fr; }
 }
 

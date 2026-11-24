@@ -99,7 +99,9 @@
     updateTeams(true);
     if (link) link.scrollIntoView({ block: 'nearest' });
     if (scrollToPanel) {
-      panels.get(teamId)?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      const panel = panels.get(teamId);
+      panel?.focus({ preventScroll: true });
+      panel?.scrollIntoView({ block: 'start' });
     }
   }
 
@@ -135,11 +137,11 @@
     updateTeams(true);
   });
 
-  // Intercept team links in picker so switching feels instant without jumping the page
+  const stackedTeams = window.matchMedia('(max-width: 860px)');
   for (const link of links) {
     link.addEventListener('click', (ev) => {
       ev.preventDefault();
-      selectTeam(link.dataset.team, false);
+      selectTeam(link.dataset.team, stackedTeams.matches);
     });
   }
 

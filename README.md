@@ -1,8 +1,8 @@
 # 鸣潮 · 账号规划
 
-记录角色养成、20 队实战手法和锁暝抽卡预算。网页支持按队号和角色名查找，PDF 内含可跳转的队号目录。
+在网页上查看角色养成、20 支预设队与 2 支规划队的实战手法，以及锁暝预算和后续抽卡优先级。
 
-[打开规划网站](https://vme50-kfc.github.io/wuwa-planner/) · [按队号查手法](https://vme50-kfc.github.io/wuwa-planner/#teams) · [打开可跳转的 PDF](docs/guide.pdf)
+[打开规划网站](https://vme50-kfc.github.io/wuwa-planner/) · [按队号查手法](https://vme50-kfc.github.io/wuwa-planner/#team-picker) · [查看抽卡优先级](https://vme50-kfc.github.io/wuwa-planner/#pull-priority)
 
 ## 当前规划
 
@@ -16,11 +16,12 @@
 
 | 内容 | 入口 |
 | --- | --- |
-| 角色养成 | [优先级与分周计划](plans/builds.md) |
-| 队伍与手法 | [20 队预设速查](plans/teams.md) · [操作与推荐视频](plans/rotations.md) |
-| 锁暝抽卡 | [保底预算与抽取顺序](plans/pulls.md) |
-| 账号实测 | [历史快照](snapshots/README.md) |
+| 角色养成 | [养成优先级](https://vme50-kfc.github.io/wuwa-planner/#builds) · [分周清单](https://vme50-kfc.github.io/wuwa-planner/#build-weeks) |
+| 队伍与手法 | [阵容、用途、操作与推荐视频](https://vme50-kfc.github.io/wuwa-planner/#teams) |
+| 锁暝抽卡 | [保底试算](https://vme50-kfc.github.io/wuwa-planner/#pulls) · [抽卡与备料计划](https://vme50-kfc.github.io/wuwa-planner/#pull-steps) |
+| 版本规划 | [4.0 到 4.3 动向与抽取顺位](https://vme50-kfc.github.io/wuwa-planner/#pull-priority) |
+| 账号实测 | [账号快照与保底明细](https://vme50-kfc.github.io/wuwa-planner/#pull-budget) |
 
 ## 更新网页
 
-网站发布目录为 `docs/`。修改配队或计划 Markdown 后，运行 `python3 scripts/build-site.py` 更新网页。
+计划源文件在 [plans/](plans/) 和 [snapshots/](snapshots/)，发布目录为 `docs/`。修改 Markdown 后，运行 `python3 scripts/build-site.py` 更新网页。

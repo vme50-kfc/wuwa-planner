@@ -163,7 +163,7 @@ def inline(text):
     for match in LINK.finditer(text):
         parts.append(bold(text[cursor:match.start()]))
         label, url = match.groups()
-        team = re.fullmatch(r'#(\d{2})-号队', url)
+        team = re.fullmatch(r'(?:rotations\.md)?#(\d{2})-号队', url)
         if team:
             url = '#team-' + team[1]
         attrs = ' target="_blank" rel="noopener noreferrer"' if url.startswith('https://') else ''
@@ -438,12 +438,12 @@ def render_weekly_checklist(builds_md):
             f'</article>'
         )
     return (
-        '<div class="weekly-board">'
+        '<div class="weekly-board" id="build-weeks">'
         '<div class="weekly-header">'
         '<div>'
         '<p class="eyebrow-sm">EXECUTION ROADMAP</p>'
         '<h3>分周养成执行清单</h3>'
-        '<p class="weekly-sub">点击即可本地记录完成进度，刷新页面自动保留。</p>'
+        '<p class="weekly-sub">按实测结果推进，材料不足可顺延。勾选进度会保存在当前浏览器。</p>'
         '</div>'
         '<div class="weekly-progress-box">'
         '<div class="weekly-stat"><span class="weekly-count" id="checklist-count">0 / '
@@ -457,24 +457,27 @@ def render_weekly_checklist(builds_md):
     )
 
 
-def render_budget_table(rows, max_need=33760):
-    head = ''.join(f'<th scope="col">{inline(col)}</th>' for col in rows[0]) + '<th scope="col">筹备缺口占比</th>'
+def render_budget_table(rows, label, max_need=None):
+    head = ''.join(f'<th scope="col">{inline(col)}</th>' for col in rows[0])
+    if max_need is not None:
+        head += '<th scope="col">筹备缺口占比</th>'
     body_rows = []
     for idx, row in enumerate(rows[2:]):
-        need_val = parse_int(row[2])
-        ratio = min(100, round(need_val / max_need * 100))
-        is_primary = idx == 1
-        row_cls = ' class="is-recommended"' if is_primary else ''
         cells = ''.join(f'<td>{inline(col)}</td>' for col in row)
-        bar = (
-            f'<td class="bar-cell">'
-            f'<div class="mini-bar"><span style="width:{ratio}%"></span></div>'
-            f'<span class="bar-pulls">≈ {(need_val + 159) // 160} 抽</span>'
-            f'</td>'
-        )
-        body_rows.append(f'<tr{row_cls}>{cells}{bar}</tr>')
+        row_cls = ''
+        if max_need is not None:
+            need_val = parse_int(row[2])
+            ratio = min(100, round(need_val / max_need * 100))
+            row_cls = ' class="is-recommended"' if idx == 1 else ''
+            cells += (
+                f'<td class="bar-cell">'
+                f'<div class="mini-bar"><span style="width:{ratio}%"></span></div>'
+                f'<span class="bar-pulls">≈ {(need_val + 159) // 160} 抽</span>'
+                f'</td>'
+            )
+        body_rows.append(f'<tr{row_cls}>{cells}</tr>')
     return (
-        '<div class="table-wrap" tabindex="0" aria-label="锁暝最坏情况预算对照表">'
+        f'<div class="table-wrap" tabindex="0" aria-label="{escape(label)}">'
         f'<table><thead><tr>{head}</tr></thead><tbody>{"".join(body_rows)}</tbody></table>'
         '</div>'
     )
@@ -577,6 +580,7 @@ for t in all_teams:
         f'<span class="team-number" data-el="{el}">{tid}</span>'
         f'<span class="team-link-body">'
         f'<span class="team-link-names">{escape(t["title"])}</span>'
+        f'<span class="team-link-purpose">{escape(t["subtitle"])}</span>'
         f'<span class="team-link-meta">{member_dots}<span class="team-link-tag">{GROUP_META[grp]["short"]}</span></span>'
         f'</span></a>'
     )
@@ -596,7 +600,7 @@ for t in all_teams:
     )
 
     team_panels.append(
-        f'<article class="team-panel spotlight-card" id="team-{tid}" data-el="{el}" data-group="{grp}" aria-labelledby="title-{tid}">'
+        f'<article class="team-panel spotlight-card" id="team-{tid}" data-el="{el}" data-group="{grp}" aria-labelledby="title-{tid}" tabindex="-1">'
         f'<div class="team-panel-accent" aria-hidden="true"></div>'
         f'<header class="team-title">'
         f'<div class="team-title-top">'
@@ -612,6 +616,7 @@ for t in all_teams:
         f'</div>'
         f'<div class="roster-bar">{render_roster_chips(t["members"])}</div>'
         f'{shared_html}'
+        f'<a class="team-directory-link" href="#team-picker">返回队号目录 <span aria-hidden="true">↑</span></a>'
         f'</header>'
         f'{render_team_body(t["lines"])}'
         f'</article>'
@@ -654,16 +659,16 @@ for row in build_rows:
 
 # Follow-up planned resonators card (心 & 爱弥斯)
 followup_cards = []
-for f_name, f_team, f_note in [
+for rank, (f_name, f_team, f_note) in enumerate([
     ('心', 'P1', '收尾主队后优先拉至 Lv80→Lv90，搭配已有专武玉阙玄华与衔梦照世之心 5 件，备战锁暝导电同奏队。'),
-    ('爱弥斯', 'P2', '按热熔深塔需求开启培养，配长路启航之星 5 件与辛吉勒姆，过渡借用 Lv90 千古洑流。'),
-]:
+    ('爱弥斯', 'P2', '心成型后按热熔深塔需求开启培养，配长路启航之星 5 件与辛吉勒姆，过渡借用 Lv90 千古洑流。'),
+], start=6):
     el = element_of(f_name)
     st = snapshot['charStates'].get(f_name, '')
     followup_cards.append(
         f'<div class="followup-card spotlight-card" data-el="{el}">'
         f'<div class="followup-head">'
-        f'<span class="followup-title">{icon(el, "el-icon")}<strong>{f_name}</strong>{element_badge(el)}</span>'
+        f'<span class="followup-title"><span class="build-rank">{rank:02}</span><strong>{f_name}</strong>{element_badge(el)}</span>'
         f'<a class="mini-team-chip" href="#team-{f_team}">查看 {f_team} 手法 ↗</a>'
         f'</div>'
         f'<p class="followup-snap">{escape(st)}</p>'
@@ -672,13 +677,32 @@ for f_name, f_team, f_note in [
     )
 
 weekly_html = render_weekly_checklist(builds_md)
+build_summary = next(line for line in builds_md.splitlines() if line.startswith('第 2 队'))
+build_references = next(line for line in builds_md.splitlines() if line.startswith('角色机制参考'))
+build_materials = next(line for line in builds_md.splitlines() if line.startswith('波片先补'))
 
 # Pulls tables
 budget_tables = tables(pulls_md)
-budget_html = render_budget_table(budget_tables[1], max_need=33760)
+budget_html = render_budget_table(budget_tables[1], '锁暝最坏情况预算对照表', max_need=33760)
+base_cost_html = render_budget_table(budget_tables[0], '扣除垫抽与波纹后的保底预算')
 base_deficit = parse_int(budget_tables[1][3][2])  # 18,912
 base_target_total = 24800
 base_ready_pct = max(0, min(100, round((base_target_total - base_deficit) / base_target_total * 100)))
+convertible_astrite = snapshot['astrite'] + snapshot['lunite']
+convertible_pulls, remaining_astrite = divmod(convertible_astrite, 160)
+budget_method, budget_references = pulls_md.split('\n### 库存变化后怎么算\n', 1)[1].split('\n## ', 1)[0].strip().split('\n\n')
+budget_method_html = ''.join(f'<li>{inline(line.split(". ", 1)[1])}</li>' for line in budget_method.splitlines())
+
+pull_intro = pulls_md.split('\n\n', 4)[2:4]
+pull_steps = pulls_md.split('\n## 抽卡执行计划\n', 1)[1]
+pull_step_cards = []
+for block in pull_steps.strip().removeprefix('### ').split('\n### '):
+    title, items = block.split('\n', 1)
+    entries = ''.join(f'<li>{inline(line[2:])}</li>' for line in items.splitlines() if line.startswith('- '))
+    pull_step_cards.append(
+        f'<article class="forecast-card spotlight-card"><h3>{escape(title)}</h3>'
+        f'<ul class="pull-step-list">{entries}</ul></article>'
+    )
 
 forecast_md = pulls_md.split('\n## 4.0 到 4.3 抽卡优先级\n', 1)[1].split('\n## ', 1)[0]
 forecast_timeline, forecast_ranking = tables(forecast_md)
@@ -737,7 +761,6 @@ index = f"""<!doctype html>
             {icon('system', 'theme-icon')}<span class="theme-label">自动</span>
           </button>
         </div>
-        <a class="header-link header-download" href="guide.pdf">PDF <span aria-hidden="true">↗</span></a>
         <a class="header-link" href="{REPO}" target="_blank" rel="noopener noreferrer" aria-label="GitHub 仓库">GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -766,7 +789,7 @@ index = f"""<!doctype html>
           <div class="hero-links">
             <a class="button primary" href="#teams">进入 22 队手法库 <span aria-hidden="true">↓</span></a>
             <a class="button secondary" href="#pulls">锁暝抽卡试算 <span aria-hidden="true">→</span></a>
-            <a class="button tertiary" href="guide.pdf">完整版 PDF <span aria-hidden="true">↗</span></a>
+            <a class="button tertiary" href="#builds">角色养成计划 <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -809,9 +832,9 @@ index = f"""<!doctype html>
         <div>
           <p class="eyebrow-sm">RESONANCE ROTATIONS // 20 PRESETS + 2 PLANNED</p>
           <h2 id="teams-title">实战阵容与轮切手法</h2>
-          <p>支持按分组、主 C 属性、队号或角色名检索；按 <kbd>/</kbd> 快速搜索，<kbd>↑</kbd><kbd>↓</kbd> 切换队伍。</p>
+          <p>按队号、角色名或主 C 属性筛选。先按步骤打通一轮，协奏满后切指定队友触发变奏，再用视频练快切和动画取消。</p>
         </div>
-        <a class="text-link" href="guide.pdf#page=7">PDF 队号目录 <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="#team-picker">按队号查手法 <span aria-hidden="true">↓</span></a>
       </div>
 
       <div class="tower-preset-bar" aria-label="深塔三队无冲突推荐">
@@ -836,7 +859,7 @@ index = f"""<!doctype html>
       </details>
 
       <div class="team-layout">
-        <aside class="picker" aria-label="选择队伍">
+        <aside class="picker" id="team-picker" aria-label="选择队伍" tabindex="-1">
           <div class="filters" hidden>
             <div class="search-field">
               <label class="sr-only" for="team-search">搜索队伍</label>
@@ -874,9 +897,10 @@ index = f"""<!doctype html>
           <h2 id="builds-title">角色养成与分周路线</h2>
           <p>按队伍强度、声骸缺口与补强性价比排序；点击队号标签可直达对应手法。</p>
         </div>
-        <a class="text-link" href="{REPO}/blob/main/plans/builds.md" target="_blank" rel="noopener noreferrer">Markdown 计划原文 <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href="#build-weeks">分周执行清单 <span aria-hidden="true">↓</span></a>
       </div>
 
+      <p class="forecast-note build-summary">{inline(build_summary)}</p>
       <ol class="builds-grid">{''.join(build_cards)}</ol>
 
       <div class="followup-section">
@@ -885,6 +909,10 @@ index = f"""<!doctype html>
       </div>
 
       {weekly_html}
+      <div class="planning-notes">
+        <p>{inline(build_materials)}</p>
+        <p>{inline(build_references)}</p>
+      </div>
     </section>
 
     <section class="wrap section reveal" id="pulls" aria-labelledby="pulls-title">
@@ -895,8 +923,9 @@ index = f"""<!doctype html>
           <p>默认载入 {escape(snapshot['date'])} 实测库存（角色池垫 {snapshot['charPity']} 抽小保底 · 武器池垫 {snapshot['weapPity']} 抽），可实时输入最新星声与波纹试算缺口。</p>
         </div>
         <div class="pulls-links">
+          <a class="text-link" href="#pull-budget">账号快照与保底明细 <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#pull-steps">抽卡执行计划 <span aria-hidden="true">↓</span></a>
           <a class="text-link" href="#pull-priority">4.0 到 4.3 抽卡优先级 <span aria-hidden="true">↓</span></a>
-          <a class="text-link" href="{REPO}/blob/main/plans/pulls.md" target="_blank" rel="noopener noreferrer">完整预算与抽卡顺序 <span aria-hidden="true">↗</span></a>
         </div>
       </div>
 
@@ -1003,20 +1032,37 @@ index = f"""<!doctype html>
             {budget_html}
           </div>
 
-          <div class="prep-card spotlight-card" data-el="electro">
-            <div class="prep-head">
-              {element_badge('electro')}
-              <h3>抽取策略与锁暝预留材料</h3>
+          <details class="quick-start budget-details" id="pull-budget" open>
+            <summary><span class="summary-main">账号快照与保底明细</span><span class="summary-meta">{escape(snapshot['date'])}</span></summary>
+            <div class="planning-notes budget-details-body">
+              <dl class="snapshot-balances">
+                <div><dt>星声 / 月相</dt><dd>{snapshot['astrite']:,} / {snapshot['lunite']:,}</dd></div>
+                <div><dt>浮金 / 铸潮波纹</dt><dd>{snapshot['radiant']:,} / {snapshot['forging']:,}</dd></div>
+                <div><dt>余波 / 残振珊瑚</dt><dd>{snapshot['afterglow']:,} / {snapshot['oscillated']:,}</dd></div>
+                <div><dt>贝币</dt><dd>{escape(snapshot['shellCredits'])}</dd></div>
+              </dl>
+              <p>月相可按 1 比 1 兑换星声。全换后合计 {convertible_astrite:,} 星声，可换 {convertible_pulls:,} 抽并余 {remaining_astrite:,} 星声。</p>
+              <p><strong>角色池</strong> {escape(snapshot['charPityText'])}<br><strong>武器池</strong> {escape(snapshot['weapPityText'])}</p>
+              {base_cost_html}
+              <h3>库存变化后怎么算</h3>
+              <ol>{budget_method_html}</ol>
+              <p>本体与沉冥合计缺口以快照核算，暂未计入珊瑚换抽和未来活动收入。</p>
+              <p>{inline(budget_references)}</p>
             </div>
-            <p>先保锁暝本体；拿到本体并实测「心 · 锁暝 · 守岸人」同奏循环后，再根据剩余星声与武器池垫抽决定是否抽专武<strong>沉冥</strong>。</p>
-            <div class="prep-mats">
-              <div class="mat-pill"><strong>46</strong><span>赝仙的嗟叹</span></div>
-              <div class="mat-pill"><strong>60</strong><span>瘴痕残株</span></div>
-              <div class="mat-pill"><strong>5 件套</strong><span>轻云出月 / 衔梦照世</span></div>
-            </div>
-          </div>
+          </details>
         </div>
       </div>
+
+      <section class="pull-forecast" id="pull-steps" aria-labelledby="pull-steps-title">
+        <div class="section-heading">
+          <div>
+            <h2 id="pull-steps-title">锁暝抽卡与备料计划</h2>
+            {''.join(f'<p>{inline(paragraph)}</p>' for paragraph in pull_intro)}
+          </div>
+          <a class="text-link" href="#team-P1">同奏队手法 <span aria-hidden="true">↑</span></a>
+        </div>
+        <div class="week-grid">{''.join(pull_step_cards)}</div>
+      </section>
 
       <section class="pull-forecast" id="pull-priority" aria-labelledby="pull-priority-title">
         <div class="section-heading">
@@ -1024,7 +1070,6 @@ index = f"""<!doctype html>
             <h2 id="pull-priority-title">4.0 到 4.3 抽卡优先级</h2>
             <p>{inline(forecast_blocks[0])}</p>
           </div>
-          <a class="text-link" href="guide.pdf#page=18">PDF 抽卡计划 <span aria-hidden="true">↗</span></a>
         </div>
         <div class="forecast-grid">
           <div class="forecast-card spotlight-card">
@@ -1048,7 +1093,8 @@ index = f"""<!doctype html>
         <span>鸣潮 · 个人共鸣账号规划终端</span>
       </div>
       <div class="footer-links">
-        <a href="guide.pdf">完整版 PDF ↗</a>
+        <a href="#team-picker">队号目录 ↑</a>
+        <a href="#pull-priority">抽卡优先级 ↑</a>
         <a href="{REPO}" target="_blank" rel="noopener noreferrer">GitHub 仓库 ↗</a>
         <a href="#top">回到顶部 ↑</a>
       </div>
