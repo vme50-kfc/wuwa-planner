@@ -52,10 +52,11 @@ h1, h2, h3 { line-height: 1.24; }
 .theme-control::before { left: .59rem; width: .68rem; height: .68rem; border: 1px solid currentColor; border-radius: 50%; background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
 .theme-control::after { right: .66rem; width: .3rem; height: .3rem; margin-top: -.15rem; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
 .theme-control select { appearance: none; color-scheme: dark; min-height: 2.15rem; padding: .2rem 1.35rem .2rem 1.66rem; border: 0; border-radius: .36rem; background: transparent; color: inherit; font: inherit; cursor: pointer; }
-.theme-control select:hover, .header-download:hover { background: var(--nav-hover); }
+.theme-control select:hover, .header-link:hover { background: var(--nav-hover); }
 .theme-control option { background: var(--nav-panel); color: #edf2f7; }
-.theme-control:not([hidden]) + .header-download { border-left: 1px solid var(--nav-line); }
-.header-download { display: inline-flex; align-items: center; gap: .22rem; min-height: 2.15rem; padding: .13rem .58rem; border-radius: .28rem; color: var(--gold); font-weight: 700; white-space: nowrap; }
+.theme-control:not([hidden]) + .header-link, .header-link + .header-link { border-left: 1px solid var(--nav-line); }
+.header-link { display: inline-flex; align-items: center; gap: .22rem; min-height: 2.15rem; padding: .13rem .58rem; border-radius: .28rem; color: inherit; font-weight: 700; white-space: nowrap; }
+.header-download { color: var(--gold); }
 .hero { position: relative; isolation: isolate; overflow: hidden; scroll-margin-top: 4rem; color: #f6f6ef; background: var(--night); }
 .hero-art, .hero::after { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hero-art { z-index: -2; object-fit: cover; object-position: center 44%; }
@@ -150,6 +151,7 @@ td:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
   .masthead { display: grid; grid-template-columns: 1fr auto; gap: .32rem .55rem; padding-block: .5rem; }
   .masthead nav { grid-column: 1 / -1; gap: 1.2rem; font-size: .8rem; }
   .header-actions { grid-column: 2; grid-row: 1; }
+  .header-link { padding-inline: .36rem; }
   .hero-art { object-position: 63% center; }
   .hero::after { background: linear-gradient(90deg, #0b151bc9 0%, #0b151b8b 52%, #0b151b4f), linear-gradient(0deg, #101c2180, transparent 45%); }
   .hero-inner { min-height: 19rem; padding-block: 2rem; }

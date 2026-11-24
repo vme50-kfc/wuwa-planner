@@ -142,7 +142,8 @@ index = f"""<!doctype html>
             <option value="dark">深色</option>
           </select>
         </label>
-        <a class="header-download" href="guide.pdf">PDF <span aria-hidden="true">↗</span></a>
+        <a class="header-link header-download" href="guide.pdf">PDF <span aria-hidden="true">↗</span></a>
+        <a class="header-link" href="{REPO}" aria-label="GitHub 仓库">GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </header>
