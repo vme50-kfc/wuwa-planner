@@ -120,6 +120,7 @@ index = f"""<!doctype html>
   <meta name="color-scheme" content="light dark">
   <meta name="description" content="鸣潮账号养成、锁暝抽卡预算和20队操作手法。">
   <title>鸣潮 · 账号规划</title>
+  <link rel="icon" type="image/x-icon" sizes="36x36" href="{asset('favicon.ico')}">
   <script src="{asset('theme.js')}"></script>
   <link rel="stylesheet" href="{asset('styles.css')}">
   <script defer src="{asset('planner.js')}"></script>
