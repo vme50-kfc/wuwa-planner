@@ -710,13 +710,13 @@ index = f"""<!doctype html>
       </nav>
       <div class="header-actions">
         <div class="theme-segmented" role="group" aria-label="切换外观主题">
-          <button type="button" data-theme-set="dark" aria-pressed="true" title="深色 · 黑海岸玄青">
+          <button type="button" data-theme-set="dark" aria-pressed="true" aria-label="深色" title="深色 · 黑海岸玄青">
             {icon('moon', 'theme-icon')}<span class="theme-label">深色</span>
           </button>
-          <button type="button" data-theme-set="light" aria-pressed="false" title="浅色 · 今州霜白">
+          <button type="button" data-theme-set="light" aria-pressed="false" aria-label="浅色" title="浅色 · 今州霜白">
             {icon('sun', 'theme-icon')}<span class="theme-label">浅色</span>
           </button>
-          <button type="button" data-theme-set="system" aria-pressed="false" title="跟随系统外观">
+          <button type="button" data-theme-set="system" aria-pressed="false" aria-label="跟随系统" title="跟随系统外观">
             {icon('system', 'theme-icon')}<span class="theme-label">自动</span>
           </button>
         </div>
